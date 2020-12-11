@@ -1,4 +1,4 @@
-FROM python:3.9-alpine
+FROM python:3.7-alpine
 MAINTAINER Yusukec Ltd
 
 # Python起動の際の推奨
