@@ -27,6 +27,21 @@ class UserSerializer(serializers.ModelSerializer):
         # validated_dataにはserializer内でValidationされた値が入る
         return get_user_model().objects.create_user(**validated_data)
 
+    def update(self, instance, validated_data):
+        """Update a user, setting hte password correctly and return it"""
+        password = validated_data.pop('password', None)
+        # もしユーザからのリクエストにパスワードが入っていたら取得して、Noneにする。
+
+        user = super().update(instance, validated_data)
+        # ModelSerializerクラスのupdateメソッドを呼ぶ。
+
+        # パスワードがあるときだけ直接書き込む
+        if password:
+            user.set_password(password)
+            user.save()
+
+        return user
+
 
 class AuthTokenSerializer(serializers.Serializer):
     """Serializer for the user authentication object"""
