@@ -7,8 +7,16 @@ ENV PYTHONUNBUFFERED 1
 # カレントフォルダのファイルをコピーする
 COPY ./requirements.txt /requirements.txt
 
+# POSTGRESのdependenciesのインストール
+RUN apk add --update --no-cache postgresql-client
+RUN apk add --update --no-cache --virtual .tmp-build-deps \
+      gcc libc-dev linux-headers postgresql-dev
+
 # dependenciesのインストール
 RUN pip install -r /requirements.txt
+
+# POSTGRESQL系
+RUN apk del .tmp-build-deps
 
 RUN mkdir /app
 WORKDIR /app
