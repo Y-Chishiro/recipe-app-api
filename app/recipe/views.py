@@ -6,7 +6,9 @@ from core.models import Tag
 from recipe import serializers
 
 
-class TagViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
+class TagViewSet(viewsets.GenericViewSet,
+                 mixins.ListModelMixin,
+                 mixins.CreateModelMixin):
     """Manage Tags in the databases"""
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -19,3 +21,7 @@ class TagViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
         # ここでいきなりself.request.userと呼んでいるが、
         # 上でTokenAuthenticationをしているので、
         # 自動でuserがセットされている、らしい。
+
+    def perform_create(self, serializer):
+        """Create a new tag"""
+        serializer.save(user=self.request.user)

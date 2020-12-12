@@ -63,3 +63,23 @@ class PrivateTagsApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(len(res.data), 1)  # 自分が設定したタグしか見えないように！
         self.assertEqual(res.data[0]['name'], tag.name)
+
+    # tagの作成が成功したかテスト
+    def test_create_tag_successful(self):
+        """Test creating anew tag"""
+        payload = {'name': 'Test tag'}
+        self.client.post(TAGS_URL, payload)
+
+        exists = Tag.objects.filter(
+            user=self.user,
+            name=payload['name']
+        ).exists()  # True or False
+        self.assertTrue(exists)
+
+    # 不適切な名前でアップしたとき
+    def test_create_tag_invalid(self):
+        """Test creating a new tag with invalid payload"""
+        payload = {'name': ''}
+        res = self.client.post(TAGS_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
