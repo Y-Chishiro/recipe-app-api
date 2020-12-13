@@ -9,6 +9,7 @@ router.register('tags', views.TagViewSet)
 # 何が嬉しいかというと、ViewSet側でURLを追加して行ったときに、
 # したのurlpatternsを自動で更新してくれる。
 router.register('ingredients', views.IngredientViewSet)
+router.register('recipes', views.RecipeViewSet)
 
 app_name = 'recipe'
 
