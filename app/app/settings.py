@@ -129,6 +129,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+# 127.0.0.1:8000/static/
+# 外からstaticファイルを探すときのurl
+
+MEDIA_URL = '/media/'
+# 127.0.0.1:8000/media/
+# 外からmediaファイルをリクエストするときのURL
+
+MEDIA_ROOT = '/vol/web/media'
+# メディアフォルダがどこにあるかを指定。
+
+STATIC_ROOT = '/vol/web/static'
+# スタティックフォルダがどこにあるかを指定。
 
 AUTH_USER_MODEL = 'core.User'
 # 我々が定義したユーザモデル
